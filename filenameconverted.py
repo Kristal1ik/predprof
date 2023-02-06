@@ -1,0 +1,92 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(569, 403)
+        self.name = QtWidgets.QPlainTextEdit(Form)
+        self.name.setGeometry(QtCore.QRect(280, 10, 281, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.name.setFont(font)
+        self.name.setObjectName("name")
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setGeometry(QtCore.QRect(9, 10, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.name_org = QtWidgets.QPlainTextEdit(Form)
+        self.name_org.setGeometry(QtCore.QRect(280, 90, 281, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.name_org.setFont(font)
+        self.name_org.setObjectName("name_org")
+        self.label_2 = QtWidgets.QLabel(Form)
+        self.label_2.setGeometry(QtCore.QRect(10, 90, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(Form)
+        self.label_3.setGeometry(QtCore.QRect(10, 170, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.locate = QtWidgets.QPlainTextEdit(Form)
+        self.locate.setGeometry(QtCore.QRect(280, 170, 281, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.locate.setFont(font)
+        self.locate.setObjectName("locate")
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setGeometry(QtCore.QRect(340, 330, 221, 61))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.pushButton.setFont(font)
+        self.pushButton.setObjectName("pushButton")
+        self.label_4 = QtWidgets.QLabel(Form)
+        self.label_4.setGeometry(QtCore.QRect(10, 250, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(9)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName("label_4")
+        self.comboBox = QtWidgets.QComboBox(Form)
+        self.comboBox.setGeometry(QtCore.QRect(280, 250, 53, 41))
+        self.comboBox.setObjectName("comboBox")
+        for i in range(1, 100):
+            self.comboBox.addItem("")
+        self.locate_2 = QtWidgets.QPlainTextEdit(Form)
+        self.locate_2.setGeometry(QtCore.QRect(350, 250, 211, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.locate_2.setFont(font)
+        self.locate_2.setObjectName("locate_2")
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Добавить заезд"))
+        self.label.setText(_translate("Form", "Наименование соревнования"))
+        self.label_2.setText(_translate("Form", "Наименование организатора"))
+        self.label_3.setText(_translate("Form", "Место проведения"))
+        self.pushButton.setText(_translate("Form", "Добавить"))
+        self.label_4.setText(_translate("Form", "Наименование заезда"))
+
+        for i in range(1, 100):
+            self.comboBox.setItemText(i - 1, _translate("Form", str(i)))
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    Form = QtWidgets.QWidget()
+    ui = Ui_Form()
+    ui.setupUi(Form)
+    Form.show()
+    sys.exit(app.exec_())
