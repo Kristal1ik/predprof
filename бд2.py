@@ -2,7 +2,8 @@
 
 import pymysql
 from datetime import date
-
+import http.client
+import json
 import sys
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from PySide2.QtWidgets import *
@@ -324,8 +325,10 @@ class Ui_MainWindow(object):
             _translate("MainWindow", "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
         self.addFilmButton_2.setText(
             _translate("MainWindow", "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
-        self.startButton_3.setText(_translate("MainWindow", "\u041d\u0430\u0447\u0430\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
-        self.finishButton_4.setText(_translate("MainWindow", "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
+        self.startButton_3.setText(
+            _translate("MainWindow", "\u041d\u0430\u0447\u0430\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
+        self.finishButton_4.setText(_translate("MainWindow",
+                                               "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2),
                                   _translate("MainWindow", "\u0417\u0430\u0435\u0437\u0434\u044b"))
         self.addFilmButton.setText(_translate("MainWindow",
@@ -351,6 +354,52 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
         self.up_f2()
         self.addFilmButton_2.clicked.connect(self.af2())
         self.deleteFilmButton_5.clicked.connect(self.df2)
+        self.startButton_3.clicked.connect(self.start)
+        self.finishButton_4.clicked.connect(self.finish)
+
+    def start(self):
+        client = http.client.HTTPConnection(Constants.ip)
+        client.connect()
+        client.request('GET', 'start')
+        t = client.getresponse().read().decode('UTF-8')
+
+    def finish(self):
+        if self.participants == 1:
+            self.saveData2(self.id, self.get_data(self.ip1))
+        else:
+            self.saveData3(self.id, self.get_data(self.ip1), self.get_data(self.ip2))
+
+    def get_data(self, ip=""):
+        client = http.client.HTTPConnection(Constants.ip)
+        client.connect()
+        client.request('GET', 'get_data')
+        t = client.getresponse().read().decode('UTF-8')
+        return dict(json.loads(t))
+
+    def saveData(self, id, participantID, start, end, data):
+        try:
+            db = pymysql.connect(host="VH293.spaceweb.ru", user="savateevdm", password="LJJ1C&xG3GW1Z53H",
+                                 db="savateevdm",
+                                 port=3306)
+        except:
+            print("Unable to connect to db")
+        with db.cursor() as cursor:
+            cursor.execute(
+                f"UPDATE `race` SET `start`=%s,`finish`=%s,`telemetry`=%s WHERE competition_id=%s and participant_id=%s",
+                (start, end, data, id, participantID))
+            db.commit()
+
+    def saveData2(self, id, data):
+        self.saveData(id, str(data['ParticipantID']), str(data['Start']), str(data['Finish']), str(data['Telemetry']))
+
+    def saveData3(self, id, data1, data2):
+        self.saveData(id, str(data1['ParticipantID']) + ";" + str(data2['ParticipantID']),
+                      str(data1['Start']) + ";" + str(data2['Start']),
+                      str(data1['Finish']) + ";" + str(data2['Finish']),
+                      "{" + "\"" + str(data1['ParticipantID']) + "\"" + ":" + str(
+                          data1['Telemetry']) + "," + """\"""" + str(
+                          data2['ParticipantID'] + 1) + """\"""" + ":" + str(
+                          data1['Telemetry']) + "}")
 
     def up_f(self):
         result = []
