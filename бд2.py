@@ -7,8 +7,8 @@ import json
 import sys
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from PySide2.QtWidgets import *
-from PyQt5 import uic
-
+from PySide2.QtGui import *
+from PySide2.QtCore import *
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -74,194 +74,108 @@ class Ui_Form(object):
     # retranslateUi
 
 
-class AddRaceWidget(QMainWindow, Ui_Form):  # окно добавления данных о заезде
-    def __init__(self, a=None, f_i=None):
-        super().__init__(a)
-        self.setupUi(self)
-        self.p = {}
-        self.f_i = f_i
-        if f_i is not None:
-            self.pushButton.clicked.connect(self.ee)
-            self.pushButton.setText('Отредактировать')
-            self.setWindowTitle('Редактирование записи')
-            # self.get()
+class Ui_Form_Race(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(569, 583)
+        self.name_race = QPlainTextEdit(Form)
+        self.name_race.setGeometry(QRect(280, 10, 281, 41))
+        font = QFont()
+        font.setPointSize(12)
+        self.name_race.setFont(font)
+        self.name_race.setObjectName("name_race")
+        self.label = QLabel(Form)
+        self.label.setGeometry(QRect(9, 10, 251, 41))
+        font = QFont()
+        font.setPointSize(9)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.type_race = QLabel(Form)
+        self.type_race.setGeometry(QRect(10, 90, 251, 41))
+        font = QFont()
+        font.setPointSize(9)
+        self.type_race.setFont(font)
+        self.type_race.setObjectName("type_race")
+        self.label_3 = QLabel(Form)
+        self.label_3.setGeometry(QRect(10, 170, 251, 41))
+        font = QFont()
+        font.setPointSize(9)
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.pilot_1 = QPlainTextEdit(Form)
+        self.pilot_1.setGeometry(QRect(280, 170, 281, 41))
+        font = QFont()
+        font.setPointSize(10)
+        self.pilot_1.setFont(font)
+        self.pilot_1.setObjectName("pilot_1")
+        self.pushButton = QPushButton(Form)
+        self.pushButton.setGeometry(QRect(340, 510, 221, 61))
+        font = QFont()
+        font.setPointSize(10)
+        self.pushButton.setFont(font)
+        self.pushButton.setObjectName("pushButton")
 
-        else:
-            self.pushButton.clicked.connect(self.insert)
+        lst = ['qualifying (квалификация)', 'top 32(1 / 16)', 'top 16(1 / 8)', 'top 8(четвертьфинал)', 'semifinal(полуфинал)',
+            'battle for 3rd place (заезд за 3 место)',
+               'final (финал)']
+        self.comboBox = QComboBox(Form)
+        self.comboBox.setGeometry(QRect(280, 100, 281, 41))
+        self.comboBox.setObjectName("comboBox")
+        for i in range(len(lst)):
+            self.comboBox.addItem(lst[i])
 
-    # def get(self):
-    #     i = []
-    #     connection = pymysql.connect(
-    #         host='VH293.spaceweb.ru.',
-    #         port=3306,
-    #         user='savateevdm',
-    #         password='LJJ1C&xG3GW1Z53H',
-    #         database='savateevdm',
-    #         cursorclass=pymysql.cursors.DictCursor
-    #     )
-    #
-    #     with connection.cursor() as cursor:
-    #         select_all_rows = "SELECT * FROM `data`"
-    #         cursor.execute(select_all_rows)
-    #         res = cursor.fetchall()
-    #     connection.close()
-    #     cursor.close()
-    #
-    #     for i in res:
-    #         res = list(i.values())
-    #         i.append(res)
-    #     print(i)
-    #
-    #     self.name.setPlainText(i[1])
-    #     self.name_org.setPlainText(str(i[2]))
-    #     self.locate.setPlainText(str(i[4]))
+        self.label_4 = QLabel(Form)
+        self.label_4.setGeometry(QRect(10, 250, 251, 41))
+        font = QFont()
+        font.setPointSize(9)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName("label_4")
+        self.pilot2 = QPlainTextEdit(Form)
+        self.pilot2.setGeometry(QRect(280, 250, 281, 41))
+        font = QFont()
+        font.setPointSize(10)
+        self.pilot2.setFont(font)
+        self.pilot2.setObjectName("pilot2")
+        self.label_5 = QLabel(Form)
+        self.label_5.setGeometry(QRect(10, 330, 251, 41))
+        font = QFont()
+        font.setPointSize(9)
+        self.label_5.setFont(font)
+        self.label_5.setObjectName("label_5")
+        self.ip_2 = QPlainTextEdit(Form)
+        self.ip_2.setGeometry(QRect(280, 410, 281, 41))
+        font = QFont()
+        font.setPointSize(10)
+        self.ip_2.setFont(font)
+        self.ip_2.setObjectName("ip_2")
+        self.ip_1 = QPlainTextEdit(Form)
+        self.ip_1.setGeometry(QRect(280, 330, 281, 41))
+        font = QFont()
+        font.setPointSize(10)
+        self.ip_1.setFont(font)
+        self.ip_1.setObjectName("ip_1")
+        self.label_6 = QLabel(Form)
+        self.label_6.setGeometry(QRect(10, 410, 251, 41))
+        font = QFont()
+        font.setPointSize(9)
+        self.label_6.setFont(font)
+        self.label_6.setObjectName("label_6")
 
-    def insert(self):
-        connection = pymysql.connect(
-            host='VH293.spaceweb.ru.',
-            port=3306,
-            user='savateevdm',
-            password='LJJ1C&xG3GW1Z53H',
-            database='savateevdm',
-            cursorclass=pymysql.cursors.DictCursor
-        )
+        self.retranslateUi(Form)
+        QMetaObject.connectSlotsByName(Form)
 
-        try:
-            with connection.cursor() as cursor:
-                current_date = date.today()
-                insert_query = f'''INSERT INTO `data` (name_of_the_competition, date, name_of_the_organizer, location) VALUES ("{self.name.toPlainText()}", "{current_date}", "{self.name_org.toPlainText()}", "{self.locate.toPlainText()}");'''
-                cursor.execute(insert_query)
-                connection.commit()
-        except ValueError:
-            self.statusBar().showMessage("Неверно заполнена форма")
-        else:
-            self.parent().up_f()
-            connection.close()
-            cursor.close()
+    def retranslateUi(self, Form):
+        _translate = QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Добавить заезд"))
+        self.label.setText(_translate("Form", "id Соревнования"))
+        self.type_race.setText(_translate("Form", "Тип заезда"))
+        self.label_3.setText(_translate("Form", "Номер пилота 1"))
+        self.pushButton.setText(_translate("Form", "Добавить"))
+        self.label_4.setText(_translate("Form", "Номер пилота 2"))
+        self.label_5.setText(_translate("Form", "ip пилота 1"))
+        self.label_6.setText(_translate("Form", "ip пилота 2"))
 
-
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'main1XWyrfn.ui'
-##
-## Created by: Qt User Interface Compiler version 5.15.2
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-class AddRaceWidget2(QMainWindow):
-
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Добавление заезда")
-        # setting geometry
-        self.setGeometry(100, 100, 400, 500)
-
-        # calling method
-        self.UiComponents()
-
-        # showing all the widgets
-        self.show()
-
-    # method for widgets
-    def UiComponents(self):
-        # counter
-        self.count = 0
-
-        # creating flag
-        self.flag = False
-
-        # creating a label to show the time
-        self.label = QLabel(self)
-
-        # setting geometry of label
-        self.label.setGeometry(75, 100, 250, 70)
-
-        # adding border to the label
-        self.label.setStyleSheet("border : 4px solid black;")
-
-        # setting text to the label
-        self.label.setText(str(self.count))
-
-        # setting font to the label
-        self.label.setFont(QFont('Arial', 25))
-
-        # setting alignment to the text of label
-        self.label.setAlignment(Qt.AlignCenter)
-
-        # creating start button
-        start = QPushButton("Начать заезд", self)
-
-        # setting geometry to the button
-        start.setGeometry(125, 250, 150, 40)
-
-        # add action to the method
-        start.pressed.connect(self.Start)
-
-        # creating pause button
-        pause = QPushButton("Пауза", self)
-
-        # setting geometry to the button
-        pause.setGeometry(125, 300, 150, 40)
-
-        # add action to the method
-        pause.pressed.connect(self.Pause)
-
-        # creating reset button
-        re_set = QPushButton("Пауза", self)
-
-        # setting geometry to the button
-        re_set.setGeometry(125, 350, 150, 40)
-
-        # add action to the method
-        re_set.pressed.connect(self.Re_set)
-
-        # creating a timer object
-        timer = QTimer(self)
-
-        # adding action to timer
-        timer.timeout.connect(self.showTime)
-
-        # update the timer every tenth second
-        timer.start(100)
-
-    # method called by timer
-    def showTime(self):
-        # checking if flag is true
-        if self.flag:
-            # incrementing the counter
-            self.count += 1
-
-        # getting text from count
-        text = str(self.count / 10)
-
-        # showing text
-        self.label.setText(text)
-
-    def Start(self):
-        # making flag to true
-        self.flag = True
-
-    def Pause(self):
-        # making flag to False
-        self.flag = False
-
-    def Re_set(self):
-        # making flag to false
-        self.flag = False
-
-        # resetting the count
-        self.count = 0
-
-        # setting text to label
-        self.label.setText(str(self.count))
-
-
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-
-
+# вид окна с соревнованиями
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -342,6 +256,95 @@ class Ui_MainWindow(object):
     # retranslateUi
 
 
+class AddRaceWidget(QMainWindow, Ui_Form):  # окно добавления данных о соревновании
+    def __init__(self, a=None, f_i=None):
+        super().__init__(a)
+        self.setupUi(self)
+        self.p = {}
+        self.f_i = f_i
+        if f_i is not None:
+            self.pushButton.clicked.connect(self.ee)
+            self.pushButton.setText('Отредактировать')
+            self.setWindowTitle('Редактирование записи')
+            # self.get()
+
+        else:
+            self.pushButton.clicked.connect(self.insert)
+
+    def insert(self):
+        connection = pymysql.connect(
+            host='VH293.spaceweb.ru.',
+            port=3306,
+            user='savateevdm',
+            password='LJJ1C&xG3GW1Z53H',
+            database='savateevdm',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        try:
+            with connection.cursor() as cursor:
+                current_date = date.today()
+                insert_query = f'''INSERT INTO `data` (name_of_the_competition, date, name_of_the_organizer, location) VALUES ("{self.name.toPlainText()}", "{current_date}", "{self.name_org.toPlainText()}", "{self.locate.toPlainText()}");'''
+                cursor.execute(insert_query)
+                connection.commit()
+        except ValueError:
+            self.statusBar().showMessage("Неверно заполнена форма")
+        else:
+            self.parent().up_f()
+            connection.close()
+            cursor.close()
+
+
+class AddRaceWidget2(QMainWindow, Ui_Form_Race):  # окно добавления данных о заезде
+    def __init__(self, a=None, f_i=None):
+        super().__init__(a)
+        self.setupUi(self)
+        self.p = {}
+        self.f_i = f_i
+        if f_i is not None:
+            self.pushButton.clicked.connect(self.ee)
+            self.pushButton.setText('Отредактировать')
+            self.setWindowTitle('Редактирование записи')
+            # self.get()
+
+        else:
+            self.pushButton.clicked.connect(self.insert)
+
+    def insert(self):
+        connection = pymysql.connect(
+            host='VH293.spaceweb.ru.',
+            port=3306,
+            user='savateevdm',
+            password='LJJ1C&xG3GW1Z53H',
+            database='savateevdm',
+            cursorclass=pymysql.cursors.DictCursor
+        )
+
+        try:
+            with connection.cursor() as cursor:
+                insert_query = f'''INSERT INTO `race` (competition_id, participant_id, start, finish, telemetry, race_type) VALUES ("{self.name_race.toPlainText()}","{self.pilot_1.toPlainText()}", "{""}", "{""}", "{{}}", "{self.comboBox.currentText()}");'''
+                print(insert_query)
+                cursor.execute(insert_query)
+                connection.commit()
+        except ValueError:
+            self.statusBar().showMessage("Неверно заполнена форма")
+        else:
+            self.parent().up_f2()
+            connection.close()
+            cursor.close()
+
+
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'main1XWyrfn.ui'
+##
+## Created by: Qt User Interface Compiler version 5.15.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+
 class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окно
     def __init__(self):
         super().__init__()
@@ -352,54 +355,54 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
         self.dialogs = []
         self.exitAction.triggered.connect(self.exit)
         self.up_f2()
-        self.addFilmButton_2.clicked.connect(self.af2())
+        self.addFilmButton_2.clicked.connect(self.af2)
         self.deleteFilmButton_5.clicked.connect(self.df2)
-        self.startButton_3.clicked.connect(self.start)
-        self.finishButton_4.clicked.connect(self.finish)
+        # self.startButton_3.clicked.connect(self.start)
+        # self.finishButton_4.clicked.connect(self.finish)
 
-    def start(self):
-        client = http.client.HTTPConnection(Constants.ip)
-        client.connect()
-        client.request('GET', 'start')
-        t = client.getresponse().read().decode('UTF-8')
-
-    def finish(self):
-        if self.participants == 1:
-            self.saveData2(self.id, self.get_data(self.ip1))
-        else:
-            self.saveData3(self.id, self.get_data(self.ip1), self.get_data(self.ip2))
-
-    def get_data(self, ip=""):
-        client = http.client.HTTPConnection(Constants.ip)
-        client.connect()
-        client.request('GET', 'get_data')
-        t = client.getresponse().read().decode('UTF-8')
-        return dict(json.loads(t))
-
-    def saveData(self, id, participantID, start, end, data):
-        try:
-            db = pymysql.connect(host="VH293.spaceweb.ru", user="savateevdm", password="LJJ1C&xG3GW1Z53H",
-                                 db="savateevdm",
-                                 port=3306)
-        except:
-            print("Unable to connect to db")
-        with db.cursor() as cursor:
-            cursor.execute(
-                f"UPDATE `race` SET `start`=%s,`finish`=%s,`telemetry`=%s WHERE competition_id=%s and participant_id=%s",
-                (start, end, data, id, participantID))
-            db.commit()
-
-    def saveData2(self, id, data):
-        self.saveData(id, str(data['ParticipantID']), str(data['Start']), str(data['Finish']), str(data['Telemetry']))
-
-    def saveData3(self, id, data1, data2):
-        self.saveData(id, str(data1['ParticipantID']) + ";" + str(data2['ParticipantID']),
-                      str(data1['Start']) + ";" + str(data2['Start']),
-                      str(data1['Finish']) + ";" + str(data2['Finish']),
-                      "{" + "\"" + str(data1['ParticipantID']) + "\"" + ":" + str(
-                          data1['Telemetry']) + "," + """\"""" + str(
-                          data2['ParticipantID'] + 1) + """\"""" + ":" + str(
-                          data1['Telemetry']) + "}")
+    # def start(self):
+    #     client = http.client.HTTPConnection(self.ip)
+    #     client.connect()
+    #     client.request('GET', 'start')
+    #     t = client.getresponse().read().decode('UTF-8')
+    #
+    # def finish(self):
+    #     if self.participants == 1:
+    #         self.saveData2(self.id, self.get_data(self.ip1))
+    #     else:
+    #         self.saveData3(self.id, self.get_data(self.ip1), self.get_data(self.ip2))
+    #
+    # def get_data(self, ip=""):
+    #     client = http.client.HTTPConnection(self.ip)
+    #     client.connect()
+    #     client.request('GET', 'get_data')
+    #     t = client.getresponse().read().decode('UTF-8')
+    #     return dict(json.loads(t))
+    #
+    # def saveData(self, id, participantID, start, end, data):
+    #     try:
+    #         db = pymysql.connect(host="VH293.spaceweb.ru", user="savateevdm", password="LJJ1C&xG3GW1Z53H",
+    #                              db="savateevdm",
+    #                              port=3306)
+    #     except:
+    #         print("Unable to connect to db")
+    #     with db.cursor() as cursor:
+    #         cursor.execute(
+    #             f"UPDATE `race` SET `start`=%s,`finish`=%s,`telemetry`=%s WHERE competition_id=%s and participant_id=%s",
+    #             (start, end, data, id, participantID))
+    #         db.commit()
+    #
+    # def saveData2(self, id, data):
+    #     self.saveData(id, str(data['ParticipantID']), str(data['Start']), str(data['Finish']), str(data['Telemetry']))
+    #
+    # def saveData3(self, id, data1, data2):
+    #     self.saveData(id, str(data1['ParticipantID']) + ";" + str(data2['ParticipantID']),
+    #                   str(data1['Start']) + ";" + str(data2['Start']),
+    #                   str(data1['Finish']) + ";" + str(data2['Finish']),
+    #                   "{" + "\"" + str(data1['ParticipantID']) + "\"" + ":" + str(
+    #                       data1['Telemetry']) + "," + """\"""" + str(
+    #                       data2['ParticipantID'] + 1) + """\"""" + ":" + str(
+    #                       data1['Telemetry']) + "}")
 
     def up_f(self):
         result = []
@@ -480,6 +483,7 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
             database='savateevdm',
             cursorclass=pymysql.cursors.DictCursor
         )
+
         with connection.cursor() as cursor:
             select_all_rows = "SELECT * FROM `race`"
             cursor.execute(select_all_rows)
@@ -495,18 +499,15 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
         self.filmsTable_5.setRowCount(len(result2))
         self.filmsTable_5.setColumnCount(len(result2[0]))
         self.filmsTable_5.setHorizontalHeaderLabels(
-            ['ID соревнования', 'ID пилота', 'Время начала заезда',
-             'Время  окончания заезда', 'Данные телементрии', 'Тип заезда'])
-        print("lkm")
+            ['ID соревнования', 'Номер участника', 'Время начала', 'Время окончания', 'Телементрия', 'Тип заезда'])
 
         for i, elem in enumerate(result2):
             for j, val in enumerate(elem):
                 self.filmsTable_5.setItem(i, j, QTableWidgetItem(str(val)))
 
     def af2(self):
-        dialog_2 = AddRaceWidget2()
-        print("sdsd")
-        dialog_2.show()
+        dialog = AddRaceWidget2(self)
+        dialog.show()
 
     def df2(self):
         rows = list(set([i.row() for i in self.filmsTable_5.selectedItems()]))
@@ -540,7 +541,6 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
             connection.close()
             cursor.close()
             self.up_f2()
-        cursor.close()
 
     def exit(self):
         self.close()
