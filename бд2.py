@@ -10,6 +10,13 @@ from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 
+
+class Temp_data:
+    ip_1 = ""
+    ip_2 = ""
+    id = 0
+
+
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
@@ -115,8 +122,9 @@ class Ui_Form_Race(object):
         self.pushButton.setFont(font)
         self.pushButton.setObjectName("pushButton")
 
-        lst = ['qualifying (квалификация)', 'top 32(1 / 16)', 'top 16(1 / 8)', 'top 8(четвертьфинал)', 'semifinal(полуфинал)',
-            'battle for 3rd place (заезд за 3 место)',
+        lst = ['qualifying (квалификация)', 'top 32(1 / 16)', 'top 16(1 / 8)', 'top 8(четвертьфинал)',
+               'semifinal(полуфинал)',
+               'battle for 3rd place (заезд за 3 место)',
                'final (финал)']
         self.comboBox = QComboBox(Form)
         self.comboBox.setGeometry(QRect(280, 100, 281, 41))
@@ -174,6 +182,7 @@ class Ui_Form_Race(object):
         self.label_4.setText(_translate("Form", "Номер пилота 2"))
         self.label_5.setText(_translate("Form", "ip пилота 1"))
         self.label_6.setText(_translate("Form", "ip пилота 2"))
+
 
 # вид окна с соревнованиями
 class Ui_MainWindow(object):
@@ -310,6 +319,14 @@ class AddRaceWidget2(QMainWindow, Ui_Form_Race):  # окно добавлени�
         else:
             self.pushButton.clicked.connect(self.insert)
 
+    def start(self, ip):
+        if ip == "":
+            return
+        client = http.client.HTTPConnection(ip)
+        client.connect()
+        client.request('GET', 'start')
+        print(client.getresponse().read().decode('UTF-8'))
+
     def insert(self):
         connection = pymysql.connect(
             host='VH293.spaceweb.ru.',
@@ -326,6 +343,11 @@ class AddRaceWidget2(QMainWindow, Ui_Form_Race):  # окно добавлени�
                 print(insert_query)
                 cursor.execute(insert_query)
                 connection.commit()
+                Temp_data.ip_1 = self.ip_1.toPlainText()
+                Temp_data.ip_2 = self.ip_2.toPlainText()
+                Temp_data.id = self.name_race.toPlainText()
+                self.start(Temp_data.ip_1)
+                self.start(Temp_data.ip_2)
         except ValueError:
             self.statusBar().showMessage("Неверно заполнена форма")
         else:
@@ -358,7 +380,7 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
         self.addFilmButton_2.clicked.connect(self.af2)
         self.deleteFilmButton_5.clicked.connect(self.df2)
         # self.startButton_3.clicked.connect(self.start)
-        # self.finishButton_4.clicked.connect(self.finish)
+        self.finishButton_4.clicked.connect(self.finish)
 
     # def start(self):
     #     client = http.client.HTTPConnection(self.ip)
@@ -366,43 +388,46 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
     #     client.request('GET', 'start')
     #     t = client.getresponse().read().decode('UTF-8')
     #
-    # def finish(self):
-    #     if self.participants == 1:
-    #         self.saveData2(self.id, self.get_data(self.ip1))
-    #     else:
-    #         self.saveData3(self.id, self.get_data(self.ip1), self.get_data(self.ip2))
-    #
-    # def get_data(self, ip=""):
-    #     client = http.client.HTTPConnection(self.ip)
-    #     client.connect()
-    #     client.request('GET', 'get_data')
-    #     t = client.getresponse().read().decode('UTF-8')
-    #     return dict(json.loads(t))
-    #
-    # def saveData(self, id, participantID, start, end, data):
-    #     try:
-    #         db = pymysql.connect(host="VH293.spaceweb.ru", user="savateevdm", password="LJJ1C&xG3GW1Z53H",
-    #                              db="savateevdm",
-    #                              port=3306)
-    #     except:
-    #         print("Unable to connect to db")
-    #     with db.cursor() as cursor:
-    #         cursor.execute(
-    #             f"UPDATE `race` SET `start`=%s,`finish`=%s,`telemetry`=%s WHERE competition_id=%s and participant_id=%s",
-    #             (start, end, data, id, participantID))
-    #         db.commit()
-    #
-    # def saveData2(self, id, data):
-    #     self.saveData(id, str(data['ParticipantID']), str(data['Start']), str(data['Finish']), str(data['Telemetry']))
-    #
-    # def saveData3(self, id, data1, data2):
-    #     self.saveData(id, str(data1['ParticipantID']) + ";" + str(data2['ParticipantID']),
-    #                   str(data1['Start']) + ";" + str(data2['Start']),
-    #                   str(data1['Finish']) + ";" + str(data2['Finish']),
-    #                   "{" + "\"" + str(data1['ParticipantID']) + "\"" + ":" + str(
-    #                       data1['Telemetry']) + "," + """\"""" + str(
-    #                       data2['ParticipantID'] + 1) + """\"""" + ":" + str(
-    #                       data1['Telemetry']) + "}")
+    def finish(self, ip):
+
+        if Temp_data.ip_2 != "":
+            self.saveData3(Temp_data.id, self.get_data(Temp_data.ip_2), self.get_data(Temp_data.ip_2))
+        else:
+            self.saveData2(Temp_data.id, self.get_data(Temp_data.ip_1))
+
+
+    def get_data(self, ip=""):
+        client = http.client.HTTPConnection(ip)
+        client.connect()
+        client.request('GET', 'get_data')
+        t = client.getresponse().read().decode('UTF-8')
+        print("RESPONSE:", '\n', t, '\n')
+        return dict(json.loads(t))
+
+    def saveData(self, id, participantID, start, end, data):
+        try:
+            db = pymysql.connect(host="VH293.spaceweb.ru", user="savateevdm", password="LJJ1C&xG3GW1Z53H",
+                                 db="savateevdm",
+                                 port=3306)
+        except:
+            print("Unable to connect to db")
+        with db.cursor() as cursor:
+            cursor.execute(
+                f"UPDATE `race` SET `start`=%s,`finish`=%s,`telemetry`=%s WHERE competition_id=%s and participant_id=%s",
+                (start, end, data, id, participantID))
+            db.commit()
+
+    def saveData2(self, id, data):
+        self.saveData(id, str(data['ParticipantID']), str(data['Start']), str(data['Finish']), str(data['Telemetry']))
+
+    def saveData3(self, id, data1, data2):
+        self.saveData(id, str(data1['ParticipantID']) + ";" + str(data2['ParticipantID']),
+                      str(data1['Start']) + ";" + str(data2['Start']),
+                      str(data1['Finish']) + ";" + str(data2['Finish']),
+                      "{" + "\"" + str(data1['ParticipantID']) + "\"" + ":" + str(
+                          data1['Telemetry']) + "," + """\"""" + str(
+                          data2['ParticipantID'] + 1) + """\"""" + ":" + str(
+                          data1['Telemetry']) + "}")
 
     def up_f(self):
         result = []
