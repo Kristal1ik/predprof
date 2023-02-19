@@ -5,10 +5,15 @@ from datetime import date
 import http.client
 import json
 import sys
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 from PySide2.QtCore import *
+import pyqtgraph as pg
+import numpy as np
+
 
 
 class Temp_data:
@@ -265,6 +270,18 @@ class Ui_MainWindow(object):
     # retranslateUi
 
 
+class Plot(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Plot, self).__init__()
+        self.graphWidget = pg.PlotWidget()
+        self.setCentralWidget(self.graphWidget)
+        self.graphWidget.setBackground('b')
+        self.pen = pg.mkPen(color=(255, 0, 0), width=5, style=QtCore.Qt.SolidLine)
+
+
+    def plot(self, arr):
+        self.graphWidget.plot(arr[0], arr[1], pen=self.pen)
+
 class AddRaceWidget(QMainWindow, Ui_Form):  # окно добавления данных о соревновании
     def __init__(self, a=None, f_i=None):
         super().__init__(a)
@@ -379,7 +396,7 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
         self.up_f2()
         self.addFilmButton_2.clicked.connect(self.af2)
         self.deleteFilmButton_5.clicked.connect(self.df2)
-        # self.startButton_3.clicked.connect(self.start)
+        self.startButton_3.clicked.connect(self.plot)
         self.finishButton_4.clicked.connect(self.finish)
 
     # def start(self):
@@ -388,13 +405,37 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
     #     client.request('GET', 'start')
     #     t = client.getresponse().read().decode('UTF-8')
     #
+    def plot(self):
+        selected = self.filmsTable_5.selectedItems()
+        if len(selected) > 1:
+            self.statusBar().showMessage("Выбрано больше 2-х пилотов")
+        elif len(selected) == 1:
+            row = selected[0].row()
+            t = list((json.loads(self.filmsTable_5.item(row, 4).text())).items())
+            if len(t) == 1:
+                t = np.array(t[0][1]).transpose()
+                dialog = Plot()
+                dialog.plot(t)
+            else:
+                t1 = np.array(t[0][1]).transpose()
+                t2 = np.array(t[1][1]).transpose()
+                dialog = Plot()
+                dialog.plot(t1)
+                dialog.plot(t2)
+                dialog.show()
+
+        else:
+            self.statusBar().showMessage("Ничего не выбрано")
+
+
     def finish(self, ip):
 
         if Temp_data.ip_2 != "":
             self.saveData3(Temp_data.id, self.get_data(Temp_data.ip_2), self.get_data(Temp_data.ip_2))
         else:
-            self.saveData2(Temp_data.id, self.get_data(Temp_data.ip_1))
-
+            t = self.get_data(Temp_data.ip_1)
+            t["Telemetry"] = "{\"" + t["ParticipantID"] + "\":" + t["Telemetry"] + "}"
+            self.saveData2(Temp_data.id, t)
 
     def get_data(self, ip=""):
         client = http.client.HTTPConnection(ip)
