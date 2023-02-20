@@ -277,7 +277,7 @@ class Ui_MainWindow(object):
         self.addFilmButton_2.setText(
             _translate("MainWindow", "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
         self.startButton_3.setText(
-            _translate("MainWindow", "\u041d\u0430\u0447\u0430\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
+            _translate("MainWindow", "\u041d\u0430\u0440\u0438\u0441\u043e\u0432\u0430\u0442\u044c \u0433\u0440\u0430\u0444\u0438\u043a"))
         self.finishButton_4.setText(_translate("MainWindow",
                                                "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044c \u0437\u0430\u0435\u0437\u0434"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2),
