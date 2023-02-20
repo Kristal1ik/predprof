@@ -93,7 +93,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form",
-                                                       u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0437\u0430\u0435\u0437\u0434",
+                                                       u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c соревнование",
                                                        None))
         self.label.setText(QCoreApplication.translate("Form",
                                                       u"\u041d\u0430\u0438\u043c\u0435\u043d\u043e\u0432\u0430\u043d\u0438\u0435 \u0441\u043e\u0440\u0435\u0432\u043d\u043e\u0432\u0430\u043d\u0438\u044f",
