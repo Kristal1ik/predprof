@@ -462,7 +462,7 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
             self.saveData3(Temp_data.id, self.get_data(Temp_data.ip_2), self.get_data(Temp_data.ip_2))
         else:
             t = self.get_data(Temp_data.ip_1)
-            t["Telemetry"] = "{\"" + t["ParticipantID"] + "\":" + t["Telemetry"] + "}"
+            t["Telemetry"] = "{\"" + str(t["ParticipantID"]) + "\":" + str(t["Telemetry"]) + "}"
             self.saveData2(Temp_data.id, t)
 
     def get_data(self, ip=""):
@@ -470,8 +470,7 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
         client.connect()
         client.request('GET', 'get_data')
         t = client.getresponse().read().decode('UTF-8')
-        print("RESPONSE:", '\n', t, '\n')
-        return dict(json.loads(t))
+        return dict(json.loads(t[:-2] + "]}"))
 
     def saveData(self, id, participantID, start, end, data):
         try:
