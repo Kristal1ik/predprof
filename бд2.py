@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pymysql
+import PyQt5
 from datetime import date
 import http.client
 import json
@@ -13,6 +14,9 @@ from PySide2.QtGui import *
 from PySide2.QtCore import *
 import pyqtgraph as pg
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+# from PyQt5.QtWidgets import QApplication, QWidget
 
 
 
@@ -20,7 +24,26 @@ class Temp_data:
     ip_1 = ""
     ip_2 = ""
     id = 0
+class Canvas(FigureCanvas):
+    def __init__(self, x, y):
+        fig, self.ax = plt.subplots(figsize=(5, 4), dpi=200)
+        super().__init__(fig)
+        self.ax.plot(x, y)
+        self.ax.set(xlabel='время (с)', ylabel='угол, \u00B0',
+                    title='График заезда')
+        self.setWindowTitle("График зависимости угла от времени")
+        self.ax.grid()
+class Canvas2(FigureCanvas):
+    def __init__(self, x1, y1, x2, y2):
+        fig, self.ax = plt.subplots(figsize=(5, 4), dpi=200)
+        super().__init__(fig)
+        self.ax.plot(x1, y1)
+        self.ax.plot(x2, y2)
 
+        self.ax.set(xlabel='время (с)', ylabel='угол, \u00B0',
+                    title='График заезда')
+        self.setWindowTitle("График зависимости угла от времени")
+        self.ax.grid()
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -414,15 +437,20 @@ class Main(QMainWindow, Ui_MainWindow):  # Вот тут основное окн
             t = list((json.loads(self.filmsTable_5.item(row, 4).text())).items())
             if len(t) == 1:
                 t = np.array(t[0][1]).transpose()
-                dialog = Plot()
-                dialog.plot(t)
+                chart = Canvas(t[0], t[1])
+                chart.show()
+                # dialog = Plot()
+                # dialog.plot(t)
             else:
                 t1 = np.array(t[0][1]).transpose()
                 t2 = np.array(t[1][1]).transpose()
-                dialog = Plot()
-                dialog.plot(t1)
-                dialog.plot(t2)
-                dialog.show()
+                chart = Canvas2(t1[0], t1[1], t2[0], t2[1])
+
+                chart.show()
+                # dialog = Plot()
+                # dialog.plot(t1)
+                # dialog.plot(t2)
+
 
         else:
             self.statusBar().showMessage("Ничего не выбрано")
