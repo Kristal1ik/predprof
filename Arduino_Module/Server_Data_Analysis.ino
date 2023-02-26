@@ -10,16 +10,12 @@ int16_t gx, gy, gz;
 static uint32_t tmr;
 uint8_t fifoBuffer[45];
 
-// #define SSID "eminA"
-// #define PASS "10101010"
-// #define SSID "IT-Poligon"
-// #define PASS "wifipassw0rd"
+
 int start = 0;
 bool JSONend = true;
-#define SSID "K41"
-#define PASS "9036650503"
-// #define SSID "Plushka"
-// #define PASS "14203237"
+
+#define SSID "Plushka"
+#define PASS "14203237"
 WiFiServer server(80);
 
 
