@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>569</width>
+    <height>583</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Добавить заезд</string>
+  </property>
+  <widget class="QPlainTextEdit" name="name_race">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>10</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>10</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>id Соревнования</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="type_race">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Тип заезда</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Номер пилота 1</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="pilot_1">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>170</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>510</y>
+     <width>221</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Добавить</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>100</y>
+     <width>281</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>250</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Номер пилота 2</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="pilot2">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>250</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>ip пилота 1</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="ip_2">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>410</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="ip_1">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>330</y>
+     <width>281</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>410</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>ip пилота 2</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
