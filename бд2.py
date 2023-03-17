@@ -29,7 +29,7 @@ class Canvas(FigureCanvas):
         fig, self.ax = plt.subplots(figsize=(5, 4), dpi=200)
         super().__init__(fig)
         self.ax.plot(x, y)
-        self.ax.set(xlabel='время (с)', ylabel='угол, \u00B0',
+        self.ax.set(xlabel='время (мс)', ylabel='угол, \u00B0',
                     title='График заезда')
         self.setWindowTitle("График зависимости угла от времени")
         self.ax.grid()
